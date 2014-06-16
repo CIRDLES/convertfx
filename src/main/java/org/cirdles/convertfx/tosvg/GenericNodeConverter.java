@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx.tosvg;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.cirdles.convertfx.CompositeConverter;
 import org.cirdles.convertfx.FXConverter;
@@ -30,14 +31,21 @@ import org.w3c.dom.Element;
  */
 class GenericNodeConverter extends CompositeConverter<Element> {
 
+    private static final Map<Document, Set<FXConverter<Element>>> constituentsCache = new HashMap<>();
+
     GenericNodeConverter(Document document) {
         super(getConstituentsForDocument(document));
     }
-    
+
     private static Set<FXConverter<Element>> getConstituentsForDocument(Document document) {
-        return new HashSet<>(Arrays.asList(
-            new LineConverter(document)
-        ));
+        if (!constituentsCache.containsKey(document)) {
+            // generate new constituents set
+            constituentsCache.put(document, new HashSet<>(Arrays.asList(
+                    new LineConverter(document)
+            )));
+        }
+
+        return constituentsCache.get(document);
     }
-    
+
 }
