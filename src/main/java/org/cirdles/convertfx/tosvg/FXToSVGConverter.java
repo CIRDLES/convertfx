@@ -13,45 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.cirdles.convertfx.tosvg;
 
-package org.cirdles.convertfx;
-
-import java.util.Set;
 import javafx.scene.Node;
+import org.cirdles.convertfx.FXConverter;
+import org.w3c.dom.Document;
 
 /**
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
- * @param <T>
  */
-public class CompositeConverter<T> implements FXConverter<T> {
-    
-    private final Set<FXConverter<T>> constituents;
-
-    public CompositeConverter(Set<FXConverter<T>> constituents) {
-        this.constituents = constituents;
-    }
+public class FXToSVGConverter implements FXConverter<Document> {
 
     @Override
-    public T convert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return constituent.convert(node);
-            }
-        }
-        
-        throw new IllegalArgumentException();
+    public Document convert(Node node) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean canConvert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return true;
-            }
-        }
-        
-        return false;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

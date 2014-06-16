@@ -14,44 +14,37 @@
  * limitations under the License.
  */
 
-package org.cirdles.convertfx;
+package org.cirdles.convertfx.tosvg;
 
-import java.util.Set;
 import javafx.scene.Node;
+import org.cirdles.convertfx.FXConverter;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
- * @param <T>
  */
-public class CompositeConverter<T> implements FXConverter<T> {
+abstract class NodeConverter implements FXConverter<Element> {
     
-    private final Set<FXConverter<T>> constituents;
-
-    public CompositeConverter(Set<FXConverter<T>> constituents) {
-        this.constituents = constituents;
+    private final Document document;
+    private final String tagName;
+    
+    NodeConverter(String tagName, Document document) {
+        this.tagName = tagName;
+        this.document = document;
     }
 
     @Override
-    public T convert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return constituent.convert(node);
-            }
-        }
+    public Element convert(Node node) {
+        Element nodeElement = document.createElement(tagName);
         
-        throw new IllegalArgumentException();
+        return nodeElement;
     }
 
     @Override
     public boolean canConvert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return true;
-            }
-        }
-        
-        return false;
+        return node.isVisible();
     }
     
 }
