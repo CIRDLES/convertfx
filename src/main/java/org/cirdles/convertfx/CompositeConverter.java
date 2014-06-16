@@ -17,24 +17,23 @@
 package org.cirdles.convertfx;
 
 import java.util.Set;
-import javafx.scene.Node;
 
 /**
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
- * @param <T>
+ * @param <X>
  */
-public class CompositeConverter<T> implements FXConverter<T> {
+public class CompositeConverter<X, Y> implements Converter<X, Y> {
     
-    private final Set<FXConverter<T>> constituents;
+    private final Set<Converter<X, Y>> constituents;
 
-    public CompositeConverter(Set<FXConverter<T>> constituents) {
+    public CompositeConverter(Set<Converter<X, Y>> constituents) {
         this.constituents = constituents;
     }
 
     @Override
-    public T convert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
+    public Y convert(X node) {
+        for (Converter<X, Y> constituent : constituents) {
             if (constituent.canConvert(node)) {
                 return constituent.convert(node);
             }
@@ -44,8 +43,8 @@ public class CompositeConverter<T> implements FXConverter<T> {
     }
 
     @Override
-    public boolean canConvert(Node node) {
-        for (FXConverter<T> constituent : constituents) {
+    public boolean canConvert(X node) {
+        for (Converter<X, Y> constituent : constituents) {
             if (constituent.canConvert(node)) {
                 return true;
             }

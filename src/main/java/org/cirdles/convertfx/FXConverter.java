@@ -20,12 +20,8 @@ import javafx.scene.Node;
 /**
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
- * @param <T>
+ * @param <Y>
  */
-public interface FXConverter<T> {
-
-    public T convert(Node node);
-
-    public boolean canConvert(Node node);
-
+public interface FXConverter<Y> extends Converter<Node, Y> {
+    
 }

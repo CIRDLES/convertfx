@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
  */
 class CircleConverter extends ShapeConverter {
 
-    public CircleConverter(Document document) {
+    CircleConverter(Document document) {
         super("circle", document);
     }
 

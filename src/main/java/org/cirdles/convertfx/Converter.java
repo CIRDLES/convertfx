@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cirdles.convertfx;
 
-import java.io.File;
-import java.nio.file.Path;
+package org.cirdles.convertfx;
 
 /**
  *
- * @author John Zeringue <john.joseph.zeringue@gmail.com>
+ * @author John Zeringue
  * @param <X>
+ * @param <Y>
  */
-public interface ToFileConverter<X> {
-
-    public void convertToFile(X target, File file);
-
-    public void convertToFile(X target, Path path);
-
+public interface Converter<X, Y> {
+    
+    public Y convert(X target);
+    
     public boolean canConvert(X target);
-
+    
 }

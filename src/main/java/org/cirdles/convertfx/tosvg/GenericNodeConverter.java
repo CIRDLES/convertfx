@@ -20,7 +20,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javafx.scene.Node;
 import org.cirdles.convertfx.CompositeConverter;
+import org.cirdles.convertfx.Converter;
 import org.cirdles.convertfx.FXConverter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,15 +31,15 @@ import org.w3c.dom.Element;
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
  */
-class GenericNodeConverter extends CompositeConverter<Element> {
+class GenericNodeConverter extends CompositeConverter<Node, Element> implements FXConverter<Element> {
 
-    private static final Map<Document, Set<FXConverter<Element>>> constituentsCache = new HashMap<>();
+    private static final Map<Document, Set<Converter<Node, Element>>> constituentsCache = new HashMap<>();
 
     GenericNodeConverter(Document document) {
         super(getConstituentsForDocument(document));
     }
 
-    private static Set<FXConverter<Element>> getConstituentsForDocument(Document document) {
+    private static Set<Converter<Node, Element>> getConstituentsForDocument(Document document) {
         if (!constituentsCache.containsKey(document)) {
             // generate new constituents set
             constituentsCache.put(document, new HashSet<>(Arrays.asList(
