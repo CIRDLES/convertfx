@@ -16,7 +16,10 @@
 
 package org.cirdles.convertfx.tosvg;
 
+import javafx.scene.Node;
+import javafx.scene.shape.Line;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -26,6 +29,24 @@ public class LineConverter extends ShapeConverter {
 
     public LineConverter(Document document) {
         super("line", document);
+    }
+
+    @Override
+    public Element convert(Node node) {
+        Line line = (Line) node;
+        Element lineElement = super.convert(node);
+        
+        lineElement.setAttribute("x1", String.valueOf(line.getStartX()));
+        lineElement.setAttribute("y1", String.valueOf(line.getStartY()));
+        lineElement.setAttribute("x2", String.valueOf(line.getEndX()));
+        lineElement.setAttribute("y2", String.valueOf(line.getEndY()));
+        
+        return super.convert(node);
+    }
+
+    @Override
+    public boolean canConvert(Node node) {
+        return super.canConvert(node) && node instanceof Line;
     }
     
 }
