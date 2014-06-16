@@ -15,9 +15,15 @@
  */
 package org.cirdles.convertfx.tosvg;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Node;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.cirdles.convertfx.FXConverter;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -25,14 +31,35 @@ import org.w3c.dom.Document;
  */
 public class FXToSVGConverter implements FXConverter<Document> {
 
+    private DocumentBuilder documentBuilder;
+
+    public FXToSVGConverter() {
+        try {
+            documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(FXToSVGConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     @Override
     public Document convert(Node node) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Document svgDocument = documentBuilder.newDocument();
+        svgDocument.setXmlStandalone(true);
+
+        // create and configure svg element
+        Element svgElement = svgDocument.createElement("svg");
+        svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        svgElement.setAttribute("version", "1.1");
+
+        svgElement.appendChild(
+                new GenericNodeConverter(svgDocument).convert(node));
+
+        return svgDocument;
     }
 
     @Override
     public boolean canConvert(Node node) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return node != null;
     }
 
 }
