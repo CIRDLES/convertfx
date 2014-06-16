@@ -38,7 +38,9 @@ abstract class ShapeConverter extends NodeConverter {
         Element shapeElement = super.convert(node);
 
         shapeElement.setAttribute("fill", convertPaintToSVG(shape.getFill()));
+        
         shapeElement.setAttribute("stroke", convertPaintToSVG(shape.getStroke()));
+        shapeElement.setAttribute("stroke-width", String.valueOf(shape.getStrokeWidth()));
 
         return shapeElement;
     }
