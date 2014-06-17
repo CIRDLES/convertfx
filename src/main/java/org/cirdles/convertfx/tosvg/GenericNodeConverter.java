@@ -43,7 +43,10 @@ class GenericNodeConverter extends CompositeConverter<Node, Element> implements 
         if (!constituentsCache.containsKey(document)) {
             // generate new constituents set
             constituentsCache.put(document, new HashSet<>(Arrays.asList(
-                                  new LineConverter(document)
+                                  new LineConverter(document),
+                                  new CircleConverter(document),
+                                  new PathConverter(document),
+                                  new GroupConverter(document)
                           )));
         }
 
