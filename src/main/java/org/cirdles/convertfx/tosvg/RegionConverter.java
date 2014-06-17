@@ -16,23 +16,23 @@
 
 package org.cirdles.convertfx.tosvg;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.Region;
 import org.w3c.dom.Document;
 
 /**
  *
  * @author John Zeringue
  */
-class GroupConverter extends ParentConverter {
+class RegionConverter extends ParentConverter {
 
-    GroupConverter(Document document) {
+    RegionConverter(Document document) {
         super(document);
     }
 
     @Override
     public boolean canConvert(Node node) {
-        return super.canConvert(node) && node instanceof Group;
+        return super.canConvert(node) && node instanceof Region;
     }
     
 }
