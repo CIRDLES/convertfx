@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx;
 
 /**
@@ -23,9 +22,9 @@ package org.cirdles.convertfx;
  * @param <Y>
  */
 public interface Converter<X, Y> {
-    
+
     public Y convert(X target);
-    
+
     public boolean canConvert(X target);
-    
+
 }

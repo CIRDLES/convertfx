@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx.tosvg;
 
 import javafx.scene.Node;
@@ -26,10 +25,10 @@ import org.w3c.dom.Element;
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
  */
 abstract class NodeConverter implements FXConverter<Element> {
-    
+
     private final Document document;
     private final String tagName;
-    
+
     NodeConverter(String tagName, Document document) {
         this.tagName = tagName;
         this.document = document;
@@ -38,7 +37,7 @@ abstract class NodeConverter implements FXConverter<Element> {
     @Override
     public Element convert(Node node) {
         Element nodeElement = document.createElement(tagName);
-        
+
         return nodeElement;
     }
 
@@ -46,5 +45,5 @@ abstract class NodeConverter implements FXConverter<Element> {
     public boolean canConvert(Node node) {
         return node.isVisible();
     }
-    
+
 }

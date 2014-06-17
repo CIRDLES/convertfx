@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx;
 
 import java.util.Set;
@@ -24,7 +23,7 @@ import java.util.Set;
  * @param <X>
  */
 public class CompositeConverter<X, Y> implements Converter<X, Y> {
-    
+
     private final Set<Converter<X, Y>> constituents;
 
     public CompositeConverter(Set<Converter<X, Y>> constituents) {
@@ -38,7 +37,7 @@ public class CompositeConverter<X, Y> implements Converter<X, Y> {
                 return constituent.convert(node);
             }
         }
-        
+
         throw new IllegalArgumentException();
     }
 
@@ -49,8 +48,8 @@ public class CompositeConverter<X, Y> implements Converter<X, Y> {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
 }

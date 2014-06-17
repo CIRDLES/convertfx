@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx.tosvg;
 
 import javafx.scene.Node;
@@ -35,11 +34,11 @@ class CircleConverter extends ShapeConverter {
     public Element convert(Node node) {
         Circle circle = (Circle) node;
         Element circleElement = super.convert(node);
-        
+
         circleElement.setAttribute("cx", String.valueOf(circle.getCenterX()));
         circleElement.setAttribute("cy", String.valueOf(circle.getCenterY()));
         circleElement.setAttribute("radius", String.valueOf(circle.getRadius()));
-        
+
         return circleElement;
     }
 
@@ -47,5 +46,5 @@ class CircleConverter extends ShapeConverter {
     public boolean canConvert(Node node) {
         return super.canConvert(node) && node instanceof Circle;
     }
-    
+
 }

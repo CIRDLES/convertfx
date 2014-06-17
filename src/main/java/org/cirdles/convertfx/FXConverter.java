@@ -23,5 +23,5 @@ import javafx.scene.Node;
  * @param <Y>
  */
 public interface FXConverter<Y> extends Converter<Node, Y> {
-    
+
 }

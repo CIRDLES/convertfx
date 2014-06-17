@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx.tosvg;
 
 import javafx.scene.Node;
@@ -35,12 +34,12 @@ public class LineConverter extends ShapeConverter {
     public Element convert(Node node) {
         Line line = (Line) node;
         Element lineElement = super.convert(node);
-        
+
         lineElement.setAttribute("x1", String.valueOf(line.getStartX()));
         lineElement.setAttribute("y1", String.valueOf(line.getStartY()));
         lineElement.setAttribute("x2", String.valueOf(line.getEndX()));
         lineElement.setAttribute("y2", String.valueOf(line.getEndY()));
-        
+
         return super.convert(node);
     }
 
@@ -48,5 +47,5 @@ public class LineConverter extends ShapeConverter {
     public boolean canConvert(Node node) {
         return super.canConvert(node) && node instanceof Line;
     }
-    
+
 }
