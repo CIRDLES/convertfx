@@ -37,7 +37,7 @@ class CircleConverter extends ShapeConverter {
 
         circleElement.setAttribute("cx", String.valueOf(circle.getCenterX()));
         circleElement.setAttribute("cy", String.valueOf(circle.getCenterY()));
-        circleElement.setAttribute("radius", String.valueOf(circle.getRadius()));
+        circleElement.setAttribute("r", String.valueOf(circle.getRadius()));
 
         return circleElement;
     }

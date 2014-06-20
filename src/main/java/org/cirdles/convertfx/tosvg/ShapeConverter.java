@@ -15,6 +15,7 @@
  */
 package org.cirdles.convertfx.tosvg;
 
+import java.util.stream.Collectors;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -41,6 +42,19 @@ abstract class ShapeConverter extends NodeConverter {
 
         shapeElement.setAttribute("stroke", convertPaintToSVG(shape.getStroke()));
         shapeElement.setAttribute("stroke-width", String.valueOf(shape.getStrokeWidth()));
+        shapeElement.setAttribute("stroke-linecap", shape.getStrokeLineCap().name().toLowerCase());
+        shapeElement.setAttribute("stroke-linejoin", shape.getStrokeLineJoin().name().toLowerCase());
+        shapeElement.setAttribute("stroke-miterlimit", String.valueOf(shape.getStrokeMiterLimit()));
+
+        if (!shape.getStrokeDashArray().isEmpty()) {
+            shapeElement.setAttribute("stroke-dasharray", String.join(",", shape.getStrokeDashArray()
+                                                                      .stream()
+                                                                      .map(String::valueOf)
+                                                                      .collect(Collectors.toList())));
+            shapeElement.setAttribute("stroke-dashoffset", String.valueOf(shape.getStrokeDashOffset()));
+        }
+
+        shapeElement.setAttribute("opacity", String.valueOf(shape.getOpacity()));
 
         return shapeElement;
     }

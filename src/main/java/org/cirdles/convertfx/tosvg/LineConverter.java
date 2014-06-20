@@ -40,7 +40,7 @@ public class LineConverter extends ShapeConverter {
         lineElement.setAttribute("x2", String.valueOf(line.getEndX()));
         lineElement.setAttribute("y2", String.valueOf(line.getEndY()));
 
-        return super.convert(node);
+        return lineElement;
     }
 
     @Override

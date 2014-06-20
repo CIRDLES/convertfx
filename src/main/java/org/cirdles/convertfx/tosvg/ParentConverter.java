@@ -38,11 +38,15 @@ class ParentConverter extends NodeConverter {
     public Element convert(Node node) {
         Parent parent = (Parent) node;
         Element parentElement = super.convert(node);
+        
+        String transform = parentElement.getAttribute("transform");
+        transform += String.format(" translate(%f,%f)", parent.getLayoutX(), parent.getLayoutY());
+        parentElement.setAttribute("transform", transform);
 
         FXConverter<Element> genericConverter = new GenericNodeConverter(document);
         for (Node child : parent.getChildrenUnmodifiable()) {
             if (genericConverter.canConvert(child)) {
-                parentElement.appendChild(genericConverter.convert(node));
+                parentElement.appendChild(genericConverter.convert(child));
             }
         }
 

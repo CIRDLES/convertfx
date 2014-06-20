@@ -65,6 +65,8 @@ public class FXToSVGConverter implements Converter<Node, Document>, ToFileConver
 
         svgElement.appendChild(
                 new GenericNodeConverter(svgDocument).convert(node));
+        
+        svgDocument.appendChild(svgElement);
 
         return svgDocument;
     }

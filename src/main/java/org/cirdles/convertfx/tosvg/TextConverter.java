@@ -36,14 +36,14 @@ class TextConverter extends ShapeConverter {
         Text text = (Text) node;
         Element textElement = super.convert(node);
         
-        textElement.setAttribute("x", String.valueOf(text.getX()));
-        textElement.setAttribute("y", String.valueOf(text.getY()));
+        textElement.setAttribute("x", String.valueOf(text.getX() + text.getLayoutX()));
+        textElement.setAttribute("y", String.valueOf(text.getY() + text.getLayoutY()));
         textElement.setAttribute("font-family", text.getFont().getFamily());
         textElement.setAttribute("font-size", String.valueOf(text.getFont().getSize()));
         
         textElement.setTextContent(text.getText());
         
-        return super.convert(node);
+        return textElement;
     }
 
     @Override
