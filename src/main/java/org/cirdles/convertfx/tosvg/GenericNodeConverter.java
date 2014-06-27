@@ -23,7 +23,6 @@ import java.util.Set;
 import javafx.scene.Node;
 import org.cirdles.convertfx.CompositeConverter;
 import org.cirdles.convertfx.Converter;
-import org.cirdles.convertfx.FXConverter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -31,7 +30,7 @@ import org.w3c.dom.Element;
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
  */
-class GenericNodeConverter extends CompositeConverter<Node, Element> implements FXConverter<Element> {
+class GenericNodeConverter extends CompositeConverter<Node, Element> {
 
     private static final Map<Document, Set<Converter<Node, Element>>> constituentsCache = new HashMap<>();
 

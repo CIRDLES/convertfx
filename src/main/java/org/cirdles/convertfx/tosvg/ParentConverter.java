@@ -17,7 +17,7 @@ package org.cirdles.convertfx.tosvg;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import org.cirdles.convertfx.FXConverter;
+import org.cirdles.convertfx.Converter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -43,7 +43,7 @@ class ParentConverter extends NodeConverter {
         transform += String.format(" translate(%f,%f)", parent.getLayoutX(), parent.getLayoutY());
         parentElement.setAttribute("transform", transform);
 
-        FXConverter<Element> genericConverter = new GenericNodeConverter(document);
+        Converter<Node, Element> genericConverter = new GenericNodeConverter(document);
         for (Node child : parent.getChildrenUnmodifiable()) {
             if (genericConverter.canConvert(child)) {
                 parentElement.appendChild(genericConverter.convert(child));

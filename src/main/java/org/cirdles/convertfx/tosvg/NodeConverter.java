@@ -22,7 +22,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import org.cirdles.convertfx.FXConverter;
+import org.cirdles.convertfx.Converter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
  */
-abstract class NodeConverter implements FXConverter<Element> {
+abstract class NodeConverter implements Converter<Node, Element> {
 
     private static final String TRANSLATE_FORMAT = "translate(%f,%f)";
     private static final String SCALE_FORMAT = "scale(%f,%f)";
