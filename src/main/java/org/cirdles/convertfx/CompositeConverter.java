@@ -37,8 +37,8 @@ public class CompositeConverter<X, Y> implements Converter<X, Y> {
                 return constituent.convert(node);
             }
         }
-
-        throw new IllegalArgumentException();
+        
+        throw new IllegalArgumentException("Can't convert " + node.getClass().getSimpleName() + ".");
     }
 
     @Override

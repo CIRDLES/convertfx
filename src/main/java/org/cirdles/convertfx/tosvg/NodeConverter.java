@@ -17,7 +17,6 @@ package org.cirdles.convertfx.tosvg;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
@@ -32,10 +31,12 @@ import org.w3c.dom.Element;
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
  */
 abstract class NodeConverter implements FXConverter<Element> {
-    
+
     private static final String TRANSLATE_FORMAT = "translate(%f,%f)";
     private static final String SCALE_FORMAT = "scale(%f,%f)";
     private static final String ROTATE_FORMAT = "rotate(%f,%f,%f)";
+
+    private static int clipPathCount = 0;
 
     private final Document document;
     private final String tagName;
@@ -48,8 +49,18 @@ abstract class NodeConverter implements FXConverter<Element> {
     @Override
     public Element convert(Node node) {
         Element nodeElement = document.createElement(tagName);
-        
+
         nodeElement.setAttribute("transform", buildTransformString(node));
+
+        if (node.getClip() != null) {
+            Element clipPathElement = document.createElement("clipPath");
+
+            clipPathElement.setAttribute("id", "clip" + ++clipPathCount);
+            clipPathElement.appendChild(new GenericNodeConverter(document).convert(node.getClip()));
+            
+            nodeElement.setAttribute("clip-path", "url(#" + clipPathElement.getAttribute("id") + ")");
+            nodeElement.appendChild(clipPathElement);
+        }
 
         return nodeElement;
     }
@@ -58,10 +69,10 @@ abstract class NodeConverter implements FXConverter<Element> {
     public boolean canConvert(Node node) {
         return node.isVisible();
     }
-    
+
     private static String buildTransformString(Node node) {
         List<String> transforms = new ArrayList<>(node.getTransforms().size());
-        
+
         for (Transform transform : node.getTransforms()) {
             if (transform instanceof Translate) {
                 Translate translate = (Translate) transform;
@@ -74,7 +85,7 @@ abstract class NodeConverter implements FXConverter<Element> {
                 transforms.add(String.format(ROTATE_FORMAT, rotate.getAngle(), rotate.getPivotX(), rotate.getPivotY()));
             }
         }
-        
+
         return String.join(" ", transforms);
     }
 

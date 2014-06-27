@@ -48,7 +48,8 @@ class GenericNodeConverter extends CompositeConverter<Node, Element> implements 
                                   new PathConverter(document),
                                   new GroupConverter(document),
                                   new RegionConverter(document),
-                                  new TextConverter(document)
+                                  new TextConverter(document),
+                                  new RectangleConverter(document)
                           )));
         }
 
