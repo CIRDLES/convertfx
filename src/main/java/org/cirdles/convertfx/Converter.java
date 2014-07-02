@@ -16,15 +16,30 @@
 package org.cirdles.convertfx;
 
 /**
- *
+ * A converter that transforms objects from one type to another.
+ * 
  * @author John Zeringue
- * @param <X>
- * @param <Y>
+ * @param <X> the type of the object to convert
+ * @param <Y> the resultant type
  */
 public interface Converter<X, Y> {
 
+    /**
+     * Converts the target object into a new object. This method should be guaranteed to succeed if returns
+     * <code>true</code> for the same argument. Otherwise, its behavior is undefined.
+     * 
+     * @param target the target object
+     * @return the result
+     * @see #canConvert(java.lang.Object)
+     */
     public Y convert(X target);
 
+    /**
+     * Determines whether or not this converter is able to convert the target object.
+     * 
+     * @param target the target object
+     * @return whether or not the target is convertable by this converter
+     */
     public boolean canConvert(X target);
 
 }

@@ -30,26 +30,34 @@ public class CompositeConverter<X, Y> implements Converter<X, Y> {
         this.constituents = constituents;
     }
 
+    /**
+     * Attempts to convert the target object by iterating through this converter's constituents and delegating the task to the
+     * first that is able to convert the target.
+     *
+     * @param target the target object
+     * @return the result
+     * @throws IllegalArgumentException if no constituents can perform the conversion
+     */
     @Override
-    public Y convert(X node) {
+    public Y convert(X target) throws IllegalArgumentException {
         for (Converter<X, Y> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return constituent.convert(node);
+            if (constituent.canConvert(target)) {
+                return constituent.convert(target);
             }
         }
-        
-        throw new IllegalArgumentException("Can't convert " + node.getClass().getSimpleName() + ".");
+
+        throw new IllegalArgumentException("Can't convert " + target.getClass().getSimpleName() + ".");
     }
 
+    /**
+     * Determines whether or not any of this converter's constituents are able to convert the target object.
+     * 
+     * @param target the target object
+     * @return if the target can be converted
+     */
     @Override
-    public boolean canConvert(X node) {
-        for (Converter<X, Y> constituent : constituents) {
-            if (constituent.canConvert(node)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean canConvert(X target) {
+        return constituents.stream().anyMatch(constituent -> constituent.canConvert(target));
     }
 
 }

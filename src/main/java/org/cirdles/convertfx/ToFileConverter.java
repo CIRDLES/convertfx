@@ -19,16 +19,35 @@ import java.io.File;
 import java.nio.file.Path;
 
 /**
+ * Converts objects of a type into a file of a particular format.
  *
  * @author John Zeringue <john.joseph.zeringue@gmail.com>
- * @param <X>
+ * @param <X> the type of object to convert
  */
 public interface ToFileConverter<X> {
 
+    /**
+     * Converts the target object into a new file at the location specified by the <code>File</code> object.
+     *
+     * @param target the target object
+     * @param file the location at which to produce the new file
+     */
     public void convertToFile(X target, File file);
 
+    /**
+     * Converts the target object into a new file at the location specified by the <code>Path</code> object.
+     *
+     * @param target the target object
+     * @param path the location at which to produce the new file
+     */
     public void convertToFile(X target, Path path);
 
+    /**
+     * Determines whether or not this converter is able to convert the target object.
+     *
+     * @param target the target object
+     * @return whether or not the target is convertable by this converter
+     */
     public boolean canConvert(X target);
 
 }
