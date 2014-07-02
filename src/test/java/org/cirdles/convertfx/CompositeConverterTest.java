@@ -13,39 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.cirdles.convertfx;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  *
  * @author zeringue
  */
 public class CompositeConverterTest {
-    
-    public CompositeConverterTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+    private IntegerIdentityConverter oneConverter;
+
+    private CompositeConverter<Integer, Integer> converter;
+    private CompositeConverter<Integer, Integer> emptyConverter;
+
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        oneConverter = new IntegerIdentityConverter(1);
+
+        Set<Converter<Integer, Integer>> constituents = new HashSet<>(
+                Arrays.asList(oneConverter,
+                              new IntegerIdentityConverter(2),
+                              new IntegerIdentityConverter(3)));
+
+        converter = new CompositeConverter<>(constituents);
+        emptyConverter = new CompositeConverter<>(new HashSet<>());
     }
 
     /**
@@ -53,14 +54,33 @@ public class CompositeConverterTest {
      */
     @Test
     public void testConvert() {
-        System.out.println("convert");
-        Object target = null;
-        CompositeConverter instance = null;
-        Object expResult = null;
-        Object result = instance.convert(target);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        for (int i = -100; i <= 100; i++) {
+            try {
+                if (!converter.canConvert(i)) {
+                    converter.convert(0);
+                    fail("Should not be able to convert unconvertable value");
+                }
+            } catch (IllegalArgumentException ex) {
+                assertEquals(ex.getMessage(), "Can't convert Integer.");
+            }
+        }
+
+        Integer testInteger1a = new Integer(1);
+        Integer testInteger1b = new Integer(1);
+        Integer testInteger2 = new Integer(2);
+        
+        List<Integer> testIntegers = Arrays.asList(testInteger1a, testInteger1b, testInteger2);
+        
+        assertFalse(testIntegers.stream().anyMatch(x -> oneConverter.hasConverted(x)));
+        
+        converter.convert(testInteger1a);
+        
+        assertTrue(oneConverter.hasConverted(testInteger1a));
+        assertFalse(oneConverter.hasConverted(testInteger1b));
+        
+        converter.convert(testInteger2);
+        
+        assertFalse(oneConverter.hasConverted(testInteger2));
     }
 
     /**
@@ -68,14 +88,50 @@ public class CompositeConverterTest {
      */
     @Test
     public void testCanConvert() {
-        System.out.println("canConvert");
-        Object target = null;
-        CompositeConverter instance = null;
-        boolean expResult = false;
-        boolean result = instance.canConvert(target);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertFalse(converter.canConvert(-1));
+        assertFalse(converter.canConvert(0));
+
+        assertTrue(converter.canConvert(1));
+        assertTrue(converter.canConvert(2));
+        assertTrue(converter.canConvert(3));
+
+        assertFalse(converter.canConvert(4));
+        assertFalse(converter.canConvert(5));
+
+        for (int i = -100; i <= 100; i++) {
+            assertFalse(emptyConverter.canConvert(i));
+        }
     }
-    
+
+    /**
+     * A simple converter that only converts <code>Integer</code>s of its own value by returning a new
+     * <code>Integer</code> with the same value.
+     */
+    private static class IntegerIdentityConverter implements Converter<Integer, Integer> {
+
+        private final Integer value;
+        private final List<Integer> converted;
+
+        public IntegerIdentityConverter(Integer value) {
+            this.value = value;
+            converted = new ArrayList<>();
+        }
+
+        @Override
+        public Integer convert(Integer target) {
+            converted.add(target);
+            return new Integer(target);
+        }
+
+        @Override
+        public boolean canConvert(Integer target) {
+            return value.equals(target);
+        }
+
+        public boolean hasConverted(Integer target) {
+            return converted.stream().anyMatch(x -> x == target);
+        }
+
+    }
+
 }
